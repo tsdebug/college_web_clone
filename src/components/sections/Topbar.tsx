@@ -1,54 +1,125 @@
-"use client"
+"use client";
 
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu"
-import Link from "next/link"
-import { Facebook, Twitter, Youtube, Instagram } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { Facebook, Twitter, Youtube, Instagram, ChevronDown } from "lucide-react";
 
 export default function Topbar() {
-  const links = [
-    { name: "Activities", dropdown: true },
-    { name: "Notice" },
-    { name: "Alumni", dropdown: true },
-    { name: "Approval/Accreditation", dropdown: true },
-    { name: "IQAC" },
-    { name: "Feedback", dropdown: true },
-    { name: "Gallery" },
-    { name: "Disclosure" },
-    { name: "Collaboration" },
-    { name: "Downloads", dropdown: true },
-    { name: "Employee Corner", dropdown: true },
-  ]
-
   return (
-    <div className="bg-blue-900 text-white text-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
-        {/* Left - Social Icons */}
-        <div className="flex items-center gap-3">
-          <Link href="#"><Facebook className="w-4 h-4 hover:text-yellow-300 transition" /></Link>
-          <Link href="#"><Twitter className="w-4 h-4 hover:text-yellow-300 transition" /></Link>
-          <Link href="#"><Youtube className="w-4 h-4 hover:text-yellow-300 transition" /></Link>
-          <Link href="#"><Instagram className="w-4 h-4 hover:text-yellow-300 transition" /></Link>
+    <nav className="bg-blue-900 text-white p-1.5 text-xs sticky top-0 z-50">
+      <div className="container mx-auto flex justify-between items-center">
+        {/* Social Icons */}
+        <div className="flex space-x-3 ml-11">
+          {[Facebook, Twitter, Youtube, Instagram].map((Icon, index) => (
+            <Button
+              key={index}
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-blue-700 h-6 w-6 opacity-80 hover:opacity-100 ml-1 transition-all"
+            >
+              <Icon className="h-7 w-7 opacity-70" />
+            </Button>
+          ))}
         </div>
 
-        {/* Right - Nav Links */}
-        <NavigationMenu>
-          <NavigationMenuList className="flex flex-wrap justify-center gap-x-2">
-            {links.map((item, idx) => (
-              <NavigationMenuItem key={idx}>
-                {item.dropdown ? (
-                  <NavigationMenuTrigger className="bg-transparent hover:text-yellow-300 text-white text-sm">
-                    {item.name}
-                  </NavigationMenuTrigger>
-                ) : (
-                  <Link href="#" className="text-white hover:text-yellow-300 text-sm px-1">
-                    {item.name}
-                  </Link>
+        {/* Dropdown Section */}
+        <div className="flex items-center font-semibold cursor-pointer mr-12">
+          {[
+            {
+              label: "Activities",
+              items: ["News", "Events", "NSS Activities"],
+            },
+            {
+              label: "Notice",
+              items: [],
+            },
+            {
+              label: "Alumni",
+              items: [
+                "Alumni",
+                "Alumni Membership Registration",
+                "Alumni Event Registration",
+              ],
+            },
+            {
+              label: "Approval/Accreditation",
+              items: ["AICTE", "MAKAUT", "NBA", "NAAC", "NIRF(Engineering)"],
+            },
+            {
+              label: "IQAC",
+              items: [
+                "About IQACs",
+                "Compositions",
+                "Meetings",
+                "Reports",
+                "NAAC SSR",
+                "NAAC AQAR 2020-21",
+                "NAAC AQAR 2021-22",
+                "NAAC AQAR 2022-23",
+                "NAAC AQAR 2023-24",
+              ],
+            },
+            {
+              label: "Feedback",
+              items: ["Current (2024 onwards)", "Previous"],
+            },
+            {
+              label: "Gallery",
+              items: ["Images", "Videos"],
+            },
+            {
+              label: "Disclosure",
+              items: [],
+            },
+            {
+              label: "Collaboration",
+              items: ["Foreign Collaboration", "Corporate Collaboration"],
+            },
+            {
+              label: "Downloads",
+              items: ["AICTE Approvals", "Other Approvals"],
+            },
+            {
+              label: "Employee Corner",
+              items: ["Sign Up", "Links/Downloads"],
+            },
+          ].map((menu, i, arr) => (
+            <div key={i} className="flex items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-white hover:bg-blue-700 text-xs h-auto px-2 py-1 flex items-center gap-1"
+                  >
+                    {menu.label}
+                    {menu.items.length > 0 && (
+                      <ChevronDown className="h-2 w-2 opacity-80" />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+
+                {menu.items.length > 0 && (
+                  <DropdownMenuContent className="text-xs bg-blue-700 text-white rounded-none">
+                    {menu.items.map((item, idx) => (
+                      <DropdownMenuItem key={idx}>{item}</DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
                 )}
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
+              </DropdownMenu>
+
+              {/* Divider except for last item */}
+              {i < arr.length - 1 && (
+                <span className="text-white/50 px-1">|</span>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  )
+    </nav>
+  );
 }

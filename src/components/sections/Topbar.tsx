@@ -20,7 +20,7 @@ export default function Topbar() {
               key={index}
               variant="ghost"
               size="icon"
-              className="text-white hover:bg-blue-700 h-6 w-6 opacity-80 hover:opacity-100 ml-1 transition-all"
+              className="text-white hover:text-gold-700 h-6 w-6 opacity-80 hover:opacity-100 ml-1 transition-all cursor-pointer"
             >
               <Icon className="h-7 w-7 opacity-70" />
             </Button>
@@ -28,7 +28,7 @@ export default function Topbar() {
         </div>
 
         {/* Dropdown Section */}
-        <div className="flex items-center font-semibold cursor-pointer mr-12">
+        <div className="flex items-center font-semibold mr-12">
           {[
             {
               label: "Activities",
@@ -94,7 +94,7 @@ export default function Topbar() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="text-white hover:bg-blue-700 text-xs h-auto px-2 py-1 flex items-center gap-1"
+                    className="text-white hover:text-yellow-400 text-xs h-auto px-2 py-1 flex items-center gap-1 cursor-pointer"
                   >
                     {menu.label}
                     {menu.items.length > 0 && (

@@ -1,145 +1,159 @@
-'use client'; 
+"use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Menu } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+
 
 export default function MainNav() {
-  const customNavLinkStyle = "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors text-gray-700 hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 data-[active]:bg-gray-200 data-[state=open]:bg-gray-200";
+  const [isBlink, setIsBlink] = useState(true);
 
-  const customNavTriggerStyle = "group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[state=open]:bg-gray-200 data-[active]:bg-gray-200";
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsBlink((prev) => !prev);
+    }, 800);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <div className="bg-gray-50 py-2 border-t border-b border-gray-200 px-5"> 
-      <div className="container mx-auto flex justify-center items-center text-sm font-semibold text-gray-700">
-        <NavigationMenu>
-          <NavigationMenuList className="space-x-1"> 
-            {/* HOME */}
-            <NavigationMenuItem>
-              <Link href="/" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  HOME
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
+    <div className="sticky top-20 z-40 bg-[#e6e6e6] border-t border-gray-300">
+      <div className="max-w-auto mx-auto flex justify-between items-center py-2 px-3 font-semibold text-[15px] text-[#0a2b66]">
+        <div className="flex items-center font-semibold cursor-pointer ml-20">
+          {[
+            {
+              label: "HOME",
+              items: [],
+            },
+            {
+              label: "ABOUT",
+              items: [
+                "Overview",
+                "Administration",
+                "Mission & Vision",
+                "Board of Trustees"
+              ],
+            },
+            {
+              label: "DEPARTMENTS",
+              items: [
+                "Basic Science and Humanities",
+                "Civil Engineering",
+                "Computer Science and Design",
+                "Computer Science and Engineering",
+              ],
+            },
+            {
+              label: "ACADEMICS",
+              items: [
+                "Programmes", 
+                "Acedimic Calender", 
+                "Faculty Profile", 
+                "R & D cell", 
+                "Scholarships"],
+            },
+            {
+              label: "INFRASTRUCTURE",
+              items: [
+                "LAbs & Workshops",
+                "Auditorium",
+                "Smart Class",
+                "Safty and Security",
+                "ATM and Banking Facilitiy",
+              ],
+            },
+            {
+              label: "ADMISSION",
+              items: [
+                "Apply",
+                "Admission Enquiry",
+                "Admission Process",
+                "Pay Fee Online BCREC",
+                "Pay Fee Online BCREC APC",
+              ],
+            },
+            {
+              label: "TENDERS",
+              items: [
+                "Tender Notice", 
+                "Tender Notice for Computer & Accessories & Equipments",
+                "BCREC Purchase Rules", 
+                "Vendor Enlistment", 
+                "Rate Contracts & Licensing Agreements", 
+              ],
+            },
+            {
+              label: "EXAMINATION",
+              items: [],
+            },
+            {
+              label: "PLACEMENT",
+              items: [
+                "General Information",
+                "Placement Details",
+                "Training Details",
+              ],
+            },
+            {
+              label: "LIBRARY",
+              items: [],
+            },
+            {
+              label: "CAREER",
+              items: [],
+            },
+            {
+              label: "CONTACT",
+              items: [],
+            },
+          ].map((menu, i, arr) => (
+            <div key={i} className="flex items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-black hover:text-blue-800 text-md h-auto px-2 py-1 flex items-center gap-0"
+                  >
+                    {menu.label}
+                    {menu.items.length > 0 && (
+                      <ChevronDown className="h-2 w-2 opacity-80" />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
 
-            {/* ABOUT */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className={customNavTriggerStyle}>ABOUT</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[150px] gap-2 p-2">
-                  <li><Link href="/about/history" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">History</NavigationMenuLink></Link></li>
-                  <li><Link href="/about/mission" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">Mission</NavigationMenuLink></Link></li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+                {menu.items.length > 0 && (
+                  <DropdownMenuContent className="text-lg bg-white text-black rounded-none cursor-pointer">
+                    {menu.items.map((item, idx) => (
+                      <DropdownMenuItem key={idx}>{item}</DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                )}
+              </DropdownMenu>
+            </div>
+          ))}
+        </div>
 
-            {/* DEPARTMENTS */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className={customNavTriggerStyle}>DEPARTMENTS</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[250px] gap-2 p-2">
-                  <li><Link href="/departments/cse" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">CSE</NavigationMenuLink></Link></li>
-                  <li><Link href="/departments/ece" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">ECE</NavigationMenuLink></Link></li>
-                  <li><Link href="/departments/me" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">ME</NavigationMenuLink></Link></li>
-                  <li><Link href="/departments/ee" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">EE</NavigationMenuLink></Link></li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+        {/* Blinking CIACON 2026 */}
+        <motion.div
+          animate={{ opacity: isBlink ? 1 : 0.2 }}
+          transition={{ duration: 0.6 }}
+          className="font-bold text-red-600 cursor-pointer mr-10"
+        >
+          CIACON 2026
+        </motion.div>
 
-            {/* ACADEMICS */}
-            <NavigationMenuItem>
-              <Link href="/academics" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  ACADEMICS
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            {/* INFRASTRUCTURE */}
-            <NavigationMenuItem>
-              <Link href="/infrastructure" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  INFRASTRUCTURE
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            {/* ADMISSION */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className={customNavTriggerStyle}>ADMISSION</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[150px] gap-2 p-2">
-                  <li><Link href="/admission/ug" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">UG</NavigationMenuLink></Link></li>
-                  <li><Link href="/admission/pg" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">PG</NavigationMenuLink></Link></li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            {/* TENDERS */}
-            <NavigationMenuItem>
-              <Link href="/tenders" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  TENDERS
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            {/* EXAMINATION */}
-            <NavigationMenuItem>
-              <Link href="/examination" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  EXAMINATION
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            {/* PLACEMENT */}
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className={customNavTriggerStyle}>PLACEMENT</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[150px] gap-2 p-2">
-                  <li><Link href="/placement/records" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">Records</NavigationMenuLink></Link></li>
-                  <li><Link href="/placement/companies" passHref><NavigationMenuLink className="block p-2 rounded-md hover:bg-accent">Companies</NavigationMenuLink></Link></li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            {/* LIBRARY */}
-            <NavigationMenuItem>
-              <Link href="/library" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  LIBRARY
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            {/* CAREER */}
-            <NavigationMenuItem>
-              <Link href="/career" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  CAREER
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            {/* CONTACT */}
-            <NavigationMenuItem>
-              <Link href="/contact" passHref> 
-                <NavigationMenuLink className={customNavLinkStyle}>
-                  CONTACT
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-          </NavigationMenuList>
-        </NavigationMenu>
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <Menu className="w-6 h-6 text-[#0a2b66]" />
+        </div>
       </div>
     </div>
   );

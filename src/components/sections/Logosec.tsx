@@ -4,7 +4,7 @@ import { Phone, Mail } from 'lucide-react';
 export default function Header() {
   return (
     <div className="bg-white shadow-sm">
-      <div className="container mx-auto flex justify-between items-center px-8">
+      <div className="container mx-auto flex justify-between items-center px-6 py-1">
         <div className="shrink-0">
           <Image
             src="/bcrec_logo.png"
